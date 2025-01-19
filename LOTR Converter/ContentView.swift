@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var showExchangeInfo = false
+    @State var leftAmount = ""
+    @State var rightAmount = ""
+    
     var body: some View {
         ZStack {
             // background image here
@@ -46,7 +50,8 @@ struct ContentView: View {
                         }
                         
                         // text field
-                        Text("Text field")
+                        TextField("Amount", text: $leftAmount)
+                            .textFieldStyle(.roundedBorder)
                     }
                     
                     // equal sign
@@ -54,7 +59,7 @@ struct ContentView: View {
                         .font(.largeTitle)
                         .foregroundStyle(.white)
                         .symbolEffect(.pulse)
-                        
+                    
                     
                     // right conversion section
                     VStack {
@@ -74,20 +79,37 @@ struct ContentView: View {
                         }
                         
                         // text field
-                        Text("Text field")
+                        TextField("Amount", text: $rightAmount)
+                            .textFieldStyle(.roundedBorder)
+                            .multilineTextAlignment(.trailing)
                     }
                     
                 }
+                .padding()
+                .background(Color.black.opacity(0.35))
                 
                 Spacer()
                 
                 // info button
-                Image(systemName: "info.circle.fill")
-                    .font(.largeTitle)
-                    .foregroundStyle(.white)
+                HStack {
+                    Spacer()
+                    
+                    Button {
+                        showExchangeInfo.toggle()
+                    } label: {
+                        Image(systemName: "info.circle.fill")
+                            .font(.largeTitle)
+                            .foregroundStyle(.white)
+                    }
+                    .padding(.horizontal)
+                }
             }
 //            .border(.blue)
         }
+        .sheet(isPresented: $showExchangeInfo) {
+            ExchangeInfo()
+        }
+        
     }
 }
 
